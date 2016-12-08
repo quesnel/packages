@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version='1.0' encoding='UTF-8'?>
 <vle_project date="2016-Apr-08 12:49:42" version="1.0.0" author="Gauthier Quesnel">
  <structures>
-<model type="coupled" name="Top model" width="2098" height="1031" x="0" y="0">
+<model type="coupled" name="Top model" x="0" y="0" width="2098" height="1031">
 <submodels>
-<model type="atomic" dynamics="world2d" conditions="world_builder" name="world_maker" width="100" height="83" x="54" y="105">
+<model type="atomic" conditions="world_builder" name="world_maker" x="54" y="105" dynamics="world2d" width="100" height="83">
 </model>
 </submodels>
 <connections>
@@ -11,15 +11,15 @@
 </model>
 </structures>
  <dynamics>
-<dynamic library="Adder" name="adder" package="vle.adaptative-qss"/>
-<dynamic library="world2d-get" name="generator" package="vle.adaptative-qss.examples"/>
-<dynamic library="Integrator" name="integrator" package="vle.adaptative-qss"/>
-<dynamic library="Mult" name="mult" package="vle.adaptative-qss"/>
-<dynamic library="AdaptativeQuantifier" name="quantifier" package="vle.adaptative-qss"/>
-<dynamic library="world2d" name="world2d" package="vle.adaptative-qss.examples"/>
-<dynamic library="world2d-sum" name="world-sum" package="vle.adaptative-qss.examples"/>
+<dynamic package="vle.adaptative-qss" name="adder" library="Adder"/>
+<dynamic package="vle.adaptative-qss" name="generator" library="Constant"/>
+<dynamic package="vle.adaptative-qss" name="integrator" library="Integrator"/>
+<dynamic package="vle.adaptative-qss" name="mult" library="Mult"/>
+<dynamic package="vle.adaptative-qss" name="quantifier" library="AdaptativeQuantifier"/>
+<dynamic package="vle.adaptative-qss.examples" name="world2d" library="world2d"/>
+<dynamic package="vle.adaptative-qss.examples" name="world-sum" library="world2d-sum"/>
 </dynamics>
- <experiment duration="100.000000000000000" name="exp" combination="linear" begin="0.000000000000000">
+ <experiment name="exp" duration="100.000000000000000" combination="linear" begin="0.000000000000000">
 <conditions>
 <condition name="simulation_engine">
  <port name="duration">
@@ -85,7 +85,7 @@
 </conditions>
 <views>
 <outputs>
-<output location="" format="local" plugin="world2d-grid" name="grid" package="vle.adaptative-qss.examples"/>
+<output format="local" plugin="world2d-grid" package="vle.adaptative-qss.examples" name="grid" location=""/>
 </outputs>
 <observables>
 <observable name="value">
@@ -96,7 +96,7 @@
 </observable>
 
 </observables>
-<view timestep="1.0" type="timed" name="grid" output="grid"/>
+<view type="timed" name="grid" timestep="1.0" output="grid"/>
 
 </views>
 </experiment>
@@ -113,7 +113,7 @@
  <port name="out"/>
 </out>
 <submodels>
-<model type="atomic" dynamics="adder" conditions="world_add,world_builder" name="adder" width="100" height="60" x="274" y="380">
+<model type="atomic" conditions="world_add,world_builder" name="adder" x="274" y="380" dynamics="adder" width="100" height="60">
 <in>
  <port name="in_1"/>
  <port name="in_2"/>
@@ -122,12 +122,12 @@
  <port name="out"/>
 </out>
 </model>
-<model type="atomic" dynamics="generator" conditions="world_builder" name="generator" width="100" height="45" x="93" y="562">
+<model type="atomic" conditions="world_builder" name="const" x="95" y="548" dynamics="generator" width="100" height="45">
 <out>
- <port name="out"/>
+ <port name="neighborhood"/>
 </out>
 </model>
-<model type="atomic" dynamics="integrator" conditions="world_builder" name="integrator" width="100" height="60" observables="value" x="499" y="423">
+<model type="atomic" conditions="world_builder" name="integrator" x="499" y="423" dynamics="integrator" width="100" height="60" observables="value">
 <in>
  <port name="Quanta"/>
  <port name="X_dot"/>
@@ -136,7 +136,7 @@
  <port name="out"/>
 </out>
 </model>
-<model type="atomic" dynamics="mult" conditions="world_builder,world_mult" name="mult" width="100" height="60" x="257" y="610">
+<model type="atomic" conditions="world_builder,world_mult" name="mult" x="257" y="610" dynamics="mult" width="100" height="60">
 <in>
  <port name="in_1"/>
  <port name="in_2"/>
@@ -145,7 +145,7 @@
  <port name="out"/>
 </out>
 </model>
-<model type="atomic" dynamics="quantifier" conditions="world_builder" name="quantifier" width="100" height="45" x="410" y="95">
+<model type="atomic" conditions="world_builder" name="quantifier" x="410" y="95" dynamics="quantifier" width="100" height="45">
 <in>
  <port name="in"/>
 </in>
@@ -153,7 +153,7 @@
  <port name="out"/>
 </out>
 </model>
-<model type="atomic" dynamics="world-sum" conditions="world_builder" name="sum" width="100" height="90" x="165" y="189">
+<model type="atomic" conditions="world_builder" name="sum" x="165" y="189" dynamics="world-sum" width="100" height="90">
 <in>
  <port name="east"/>
  <port name="north"/>
@@ -191,7 +191,7 @@
  <destination model="integrator" port="X_dot"/>
 </connection>
 <connection type="internal">
- <origin model="generator" port="out"/>
+ <origin model="const" port="neighborhood"/>
  <destination model="mult" port="in_1"/>
 </connection>
 <connection type="internal">
